@@ -197,7 +197,7 @@ public class TareaService {
 	// Obtener las tareas en progreso
 	public List<Tarea> tareasEnProgreso(){
 		if(this.tareaRepository.findByEstado(Estado.EN_PROGRESO).isEmpty()){
-			throw new TareaNotFoundException("No hay tareas pendientes");
+			throw new TareaNotFoundException("No hay tareas en progreso");
 		}
 		return this.tareaRepository.findByEstado(Estado.EN_PROGRESO);
 	}
@@ -205,23 +205,33 @@ public class TareaService {
 	// Obtener las tareas completadas
 	public List<Tarea> tareasCompletadas(){
 		if(this.tareaRepository.findByEstado(Estado.COMPLETADA).isEmpty()){
-			throw new TareaNotFoundException("No hay tareas pendientes");
+			throw new TareaNotFoundException("No hay tareas completadas");
 		}
 		return this.tareaRepository.findByEstado(Estado.COMPLETADA);
 	}
 	
 	//Obtener las tareas vencidas
 	public List<Tarea> tareasVencidas() {
+		if(this.tareaRepository.findByFechaVencimientoBefore(LocalDate.now()).isEmpty()){
+			throw new TareaNotFoundException("No hay tareas vencidas");
+		}
 		return this.tareaRepository.findByFechaVencimientoBefore(LocalDate.now());
 	}
 	
 	//Obtener las tareas no vencidas
 	public List<Tarea> tareasNoVencidas() {
+		if(this.tareaRepository.findByFechaVencimientoAfter(LocalDate.now()).isEmpty()){
+			throw new TareaNotFoundException("No hay tareas sin vencer");
+		}
 		return this.tareaRepository.findByFechaVencimientoAfter(LocalDate.now());
 	}
 	
 	//Obtener las tareas mediante su título
 	public List<Tarea> obtenerTareasTitulo(String titulo) {
+		if(this.tareaRepository.findByTituloContainingIgnoreCase(titulo).isEmpty()) {
+			throw new TareaNotFoundException("No hay tareas por ese título");
+		}
+		
 		return this.tareaRepository.findAll().stream()
 				.filter(t -> t.getTitulo().contains(titulo))
 				.collect(Collectors.toList());

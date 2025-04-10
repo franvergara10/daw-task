@@ -90,7 +90,7 @@ public class TareaController {
 		}
 	}
 
-	@GetMapping("/tareascompletadas")
+	@GetMapping("/completadas")
 	public ResponseEntity<?> tareasCompletadas() {
 		try {
 			return ResponseEntity.ok(this.tareaService.tareasCompletadas());
@@ -99,7 +99,7 @@ public class TareaController {
 		}
 	}
 
-	@GetMapping("/tareasenprogreso")
+	@GetMapping("/enprogreso")
 	public ResponseEntity<?> tareasEnProgreso() {
 		try {
 			return ResponseEntity.ok(this.tareaService.tareasEnProgreso());
@@ -108,11 +108,29 @@ public class TareaController {
 		}
 	}
 
-	@GetMapping("/tareaspendientes")
+	@GetMapping("/pendientes")
 	public ResponseEntity<?> tareasPendientes() {
 		try {
 			return ResponseEntity.ok(this.tareaService.tareasPendientes());
 		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+	
+	@GetMapping("/vencidas")
+	public ResponseEntity<?> tareasVencidas() {
+		try {
+			return ResponseEntity.ok(this.tareaService.tareasVencidas());
+		}catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+	
+	@GetMapping("/novencidas")
+	public ResponseEntity<?> tareasNoVencidas() {
+		try {
+			return ResponseEntity.ok(this.tareaService.tareasNoVencidas());
+		}catch (TareaNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
 	}
