@@ -44,7 +44,7 @@ public class TareaController {
 	public ResponseEntity<?> delete(@PathVariable int idTarea) {
 		try {
 			this.tareaService.deleteById(idTarea);
-			return ResponseEntity.ok("La tarea con ID("+ idTarea +") ha sido borrada correctamente. " );
+			return ResponseEntity.ok("La tarea con ID(" + idTarea + ") ha sido borrada correctamente. ");
 		} catch (TareaNotFoundException ex) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
 		}
@@ -65,21 +65,56 @@ public class TareaController {
 		} catch (TareaException ex) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
 		}
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	@PutMapping("/{idTarea}/iniciar")
+	public ResponseEntity<?> inciarTarea(@PathVariable int idTarea) {
+		try {
+			return ResponseEntity.ok(this.tareaService.iniciarTarea(idTarea));
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		} catch (TareaException ex) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+		}
+	}
+
+	@PutMapping("/{idTarea}/completar")
+	public ResponseEntity<?> completarTarea(@PathVariable int idTarea) {
+		try {
+			return ResponseEntity.ok(this.tareaService.completarTarea(idTarea));
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		} catch (TareaException ex) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+		}
+	}
+
+	@GetMapping("/tareascompletadas")
+	public ResponseEntity<?> tareasCompletadas() {
+		try {
+			return ResponseEntity.ok(this.tareaService.tareasCompletadas());
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+
+	@GetMapping("/tareasenprogreso")
+	public ResponseEntity<?> tareasEnProgreso() {
+		try {
+			return ResponseEntity.ok(this.tareaService.tareasEnProgreso());
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
+
+	@GetMapping("/tareaspendientes")
+	public ResponseEntity<?> tareasPendientes() {
+		try {
+			return ResponseEntity.ok(this.tareaService.tareasPendientes());
+		} catch (TareaNotFoundException ex) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+		}
+	}
 
 }

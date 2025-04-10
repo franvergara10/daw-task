@@ -3,6 +3,7 @@ package com.daw.persistance.repositories;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.repository.ListCrudRepository;
 
 import com.daw.persistance.entities.Tarea;
@@ -18,17 +19,16 @@ public interface TareaRepository extends ListCrudRepository<Tarea, Integer> {
 	 */
 	long countByEstado(Estado estado);
 	
-	//Obtener una lista de las fechas de vencimiento de las tareas que estén en progreso.	
-	//Obtener los títulos de las tareas pendientes.
 	List<Tarea> findByEstado(Estado estado);
 	
 	//Obtener las tareas vencidas.
 	List<Tarea> findByFechaVencimientoBefore(LocalDate fecha);
 	
+	//Obtener las tareas no vencidas
+	List<Tarea> findByFechaVencimientoAfter(LocalDate fecha);
+	
 	//Obtener las tareas ordenadas por fecha de vencimiento.
 	List<Tarea> findAllByOrderByFechaVencimiento();
-	
-	
 	
 	
 	
